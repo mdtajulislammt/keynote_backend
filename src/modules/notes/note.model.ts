@@ -34,13 +34,9 @@ const noteSchema = new Schema<INote>(
   }
 );
 
-// ==========================================
-// EXPLICIT INDEX DEFINITIONS
-// ==========================================
-// 1. Compound index for regular users fetching their own notes paginated and sorted by creation date
-noteSchema.index({ userId: 1, createdAt: -1 });
 
-// 2. Admin paginated list across all notes sorted by date
+// Explicit Index Definitions
+noteSchema.index({ userId: 1, createdAt: -1 });
 noteSchema.index({ createdAt: -1 });
 
 export const Note: Model<INote> = mongoose.model<INote>('Note', noteSchema);

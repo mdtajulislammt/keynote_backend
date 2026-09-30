@@ -15,6 +15,7 @@ A production-grade, highly scalable, and secure Node.js/TypeScript REST API back
   - HTTP Header Security: `helmet`
   - Cross-Origin Resource Sharing: `cors`
   - Input Sanitization & Strict Request Validation: `zod`
+- **Documentation:** Swagger / OpenAPI 3.0 via `swagger-ui-express` (Interactive UI at `/api/docs`)
 - **Testing & Quality Assurance:**
   - `vitest` (fast test runner)
   - `supertest` (HTTP integration testing)

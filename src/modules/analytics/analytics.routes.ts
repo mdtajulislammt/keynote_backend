@@ -9,10 +9,10 @@ const router = Router();
 // Secure analytics routes with authentication
 router.use(authenticate);
 
-// Scenario 1: Group by Interests
+// Group by Interests
 router.get('/interests', analyticsController.getUsersByInterests);
 
-// Scenario 2: User Posts ($lookup)
+// User Posts
 router.get(
   '/users/:userId/posts',
   validate({ params: userAnalyticsParamSchema }),

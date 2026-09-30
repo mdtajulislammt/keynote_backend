@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import swaggerUi from 'swagger-ui-express';
 import { env } from './config/env';
 import { notFoundHandler, errorHandler } from './middlewares/error.middleware';
 import { authRoutes } from './modules/auth/auth.routes';
@@ -9,13 +10,18 @@ import { userRoutes } from './modules/users/user.routes';
 import { noteRoutes, adminNoteRoutes } from './modules/notes/note.routes';
 import { postRoutes } from './modules/posts/post.routes';
 import { analyticsRoutes } from './modules/analytics/analytics.routes';
+import { swaggerDocument } from './docs/swagger';
 
 const app: Application = express();
 
 // ==========================================
 // CORE SECURITY & PARSING MIDDLEWARES
 // ==========================================
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // Ensures Swagger UI scripts and CSS assets render properly
+  })
+);
 app.use(
   cors({
     origin: env.CORS_ORIGIN === '*' ? true : env.CORS_ORIGIN.split(','),
@@ -24,6 +30,16 @@ app.use(
 );
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// ==========================================
+// SWAGGER API DOCUMENTATION
+// ==========================================
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.get('/api/docs.json', (_req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerDocument);
+});
 
 // ==========================================
 // HEALTH CHECK ENDPOINT

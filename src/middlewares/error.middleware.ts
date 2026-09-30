@@ -18,7 +18,6 @@ export const errorHandler: ErrorRequestHandler = (
   err: Error | ApiError,
   _req: Request,
   res: Response,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _next: NextFunction
 ): void => {
   let statusCode: number = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -43,7 +42,7 @@ export const errorHandler: ErrorRequestHandler = (
       message: e.message,
     }));
   }
-  // Mongoose CastError (e.g. invalid ObjectId)
+  // Mongoose CastError 
   else if (err instanceof mongoose.Error.CastError) {
     statusCode = HttpStatus.BAD_REQUEST;
     errorCode = ErrorCode.BAD_REQUEST;
@@ -68,7 +67,7 @@ export const errorHandler: ErrorRequestHandler = (
     const value = mongoErr.keyValue ? mongoErr.keyValue[field] : '';
     message = `Duplicate value '${value}' for unique field '${field}'`;
   }
-  // JSON parse error (e.g. bad request body)
+  // JSON parse error
   else if (err instanceof SyntaxError && 'status' in err && (err as { status: number }).status === 400) {
     statusCode = HttpStatus.BAD_REQUEST;
     errorCode = ErrorCode.BAD_REQUEST;

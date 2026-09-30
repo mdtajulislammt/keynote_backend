@@ -12,11 +12,10 @@ import {
 } from './note.dto';
 
 const router = Router();
-
-// Protect all note routes with authentication
+//protect all note routes with authentication
 router.use(authenticate);
 
-// User & Admin accessible routes
+//user and admin accessible routes
 router.post('/', validate({ body: createNoteSchema }), noteController.createNote);
 router.get('/', validate({ query: noteQuerySchema }), noteController.getUserNotes);
 router.get('/:id', validate({ params: noteIdParamSchema }), noteController.getNoteById);
@@ -29,7 +28,7 @@ router.delete('/:id', validate({ params: noteIdParamSchema }), noteController.de
 
 export const noteRoutes = router;
 
-// Admin-specific notes router
+//admin route 
 const adminRouter = Router();
 adminRouter.use(authenticate, authorize(UserRole.ADMIN));
 adminRouter.get('/', validate({ query: noteQuerySchema }), noteController.getAllNotes);

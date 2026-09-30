@@ -34,10 +34,7 @@ const postSchema = new Schema<IPost>(
   }
 );
 
-// ==========================================
-// EXPLICIT INDEX DEFINITIONS
-// ==========================================
-// 1. Directly supports retrieving all posts belonging to a particular user with sorting and $lookup aggregation
+// indexing
 postSchema.index({ userId: 1, createdAt: -1 });
 
 export const Post: Model<IPost> = mongoose.model<IPost>('Post', postSchema);

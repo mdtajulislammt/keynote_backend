@@ -50,16 +50,9 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-// ==========================================
-// EXPLICIT INDEX DEFINITIONS
-// ==========================================
-// 1. Fast lookup for login & registration uniqueness checks
+
 userSchema.index({ email: 1 }, { unique: true });
-
-// 2. Admin paginated user listing sorted by creation date
 userSchema.index({ role: 1, createdAt: -1 });
-
-// 3. Multikey index strictly supporting $unwind & $group aggregation pipeline by interests
 userSchema.index({ interests: 1 });
 
 export const User: Model<IUser> = mongoose.model<IUser>('User', userSchema);

@@ -13,6 +13,7 @@ const startServer = async () => {
     // 2. Start HTTP server listener
     server = app.listen(env.PORT, () => {
       console.log(`🚀 Production server running on port ${env.PORT} in ${env.NODE_ENV} mode`);
+      console.log(`📑 Swagger Documentation: http://localhost:${env.PORT}/api/docs`);
       console.log(`📡 Health check available at http://localhost:${env.PORT}/health`);
       console.log(`📚 API base URL: http://localhost:${env.PORT}/api/v1`);
     });

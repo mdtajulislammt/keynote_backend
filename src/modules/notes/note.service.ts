@@ -20,10 +20,7 @@ export class NoteService {
     return note;
   }
 
-  /**
-   * Fetch notes belonging to the authenticated user.
-   * Strictly leverages compound index: { userId: 1, createdAt: -1 }
-   */
+  // Fetch notes belonging to the authenticated user
   public async getUserNotes(userId: string, query: NoteQueryDto): Promise<PaginatedNotesResult> {
     const { page, limit, skip } = parsePagination(query);
 
@@ -46,10 +43,7 @@ export class NoteService {
     };
   }
 
-  /**
-   * Admin-only: Fetch all notes across all users.
-   * Strictly leverages single index: { createdAt: -1 }
-   */
+  // Admin-only: Fetch all notes across all users
   public async getAllNotes(query: NoteQueryDto): Promise<PaginatedNotesResult> {
     const { page, limit, skip } = parsePagination(query);
 
@@ -71,11 +65,7 @@ export class NoteService {
     };
   }
 
-  /**
-   * Fetch a single note.
-   * Regular users can only access their own note: { _id, userId }
-   * Admins can view any specific note by _id.
-   */
+  // Fetch a single note.
   public async getNoteById(noteId: string, userId: string, role: UserRole): Promise<INote> {
     let note: INote | null;
 

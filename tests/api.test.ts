@@ -74,6 +74,24 @@ describe('Secure Backend API Test Suite', () => {
   });
 
   // =========================================================================
+  // SWAGGER DOCUMENTATION
+  // =========================================================================
+  describe('Swagger Documentation', () => {
+    it('should serve Swagger UI html', async () => {
+      const res = await request(app).get('/api/docs/');
+      expect([200, 301]).toContain(res.status);
+    });
+
+    it('should serve Swagger OpenAPI JSON schema', async () => {
+      const res = await request(app).get('/api/docs.json');
+      expect(res.status).toBe(200);
+      expect(res.body.openapi).toBe('3.0.0');
+      expect(res.body.info.title).toBe('Secure Backend REST API');
+      expect(res.body.paths['/auth/register']).toBeDefined();
+    });
+  });
+
+  // =========================================================================
   // 3. AUTHENTICATION & RBAC
   // =========================================================================
   describe('Authentication Module', () => {

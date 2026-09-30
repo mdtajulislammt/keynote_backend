@@ -20,10 +20,7 @@ export class PostService {
     return post;
   }
 
-  /**
-   * Fetch public feed of posts (or filtered by user).
-   * When filtered by userId, leverages the compound index: { userId: 1, createdAt: -1 }
-   */
+  // Fetch public feed of posts (or filtered by user).
   public async getPosts(query: PostQueryDto): Promise<PaginatedPostsResult> {
     const { page, limit, skip } = parsePagination(query);
 

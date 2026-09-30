@@ -31,16 +31,8 @@ export interface UserWithPostsResult {
   }>;
 }
 
+// Group by Interests
 export class AnalyticsService {
-  /**
-   * Scenario 1: Group by Interests
-   * Strictly uses exactly ONE User.aggregate([...]) call.
-   * Pipeline stages:
-   * 1. $unwind: "$interests" (deconstructs array)
-   * 2. $group: { _id: "$interests", totalUsers: { $sum: 1 }, users: { $push: { _id: "$_id", name: "$name", email: "$email" } } }
-   * 3. $sort: { totalUsers: -1, _id: 1 }
-   * 4. $project: Cleans up response shape
-   */
   public async getUsersByInterests(): Promise<GroupedInterestItem[]> {
     const results = await User.aggregate<GroupedInterestItem>([
       {
@@ -78,15 +70,8 @@ export class AnalyticsService {
     return results;
   }
 
-  /**
-   * Scenario 2: User Posts ($lookup)
-   * Strictly uses a single aggregation pipeline using a $lookup stage to retrieve
-   * a specific user and all posts belonging to them.
-   * Pipeline stages:
-   * 1. $match: { _id: new mongoose.Types.ObjectId(userId) }
-   * 2. $lookup: { from: "posts", localField: "_id", foreignField: "userId", as: "posts" }
-   * 3. $project: Excluding sensitive fields like password
-   */
+  // User Posts
+
   public async getUserWithPosts(userId: string): Promise<UserWithPostsResult> {
     const userObjectId = new mongoose.Types.ObjectId(userId);
 
